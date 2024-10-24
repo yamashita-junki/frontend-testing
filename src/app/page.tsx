@@ -2,7 +2,7 @@
 
 import { Page } from "@/components/page";
 
-export const Home = () => {
+const Home = () => {
   return (
     <>
       <Page />

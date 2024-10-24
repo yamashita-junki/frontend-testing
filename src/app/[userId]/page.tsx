@@ -2,7 +2,7 @@
 
 import UserId from "@/components/userId";
 
-export const UserIdPage = () => {
+const UserIdPage = () => {
   return (
     <>
       <UserId />
