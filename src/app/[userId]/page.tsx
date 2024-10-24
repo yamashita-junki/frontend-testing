@@ -2,7 +2,7 @@
 
 import UserId from "@/components/userId";
 
-export const Home = () => {
+const UserIdPage = () => {
   return (
     <>
       <UserId />
@@ -10,4 +10,4 @@ export const Home = () => {
   );
 };
 
-export default Home;
+export default UserIdPage;
