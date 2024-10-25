@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   value: string;
-  disabled: boolean;
+  disabled?: boolean;
   placeholder?: string;
   id?: string;
   name?: string;
