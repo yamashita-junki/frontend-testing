@@ -1,5 +1,5 @@
-import { useNavigate } from "@/hooks/useNavigate";
-import { useParams } from "next/navigation";
+import { useNavigate } from '@/hooks/useNavigate';
+import { useParams } from 'next/navigation';
 
 export const useHook = () => {
   const { navigateTo } = useNavigate();
@@ -9,12 +9,12 @@ export const useHook = () => {
     const userId = String(params.userId);
 
     const onSubmit = () => {
-      navigateTo("");
+      navigateTo('');
     };
 
     return {
       userId,
-      onSubmit,
+      onSubmit
     };
   };
 

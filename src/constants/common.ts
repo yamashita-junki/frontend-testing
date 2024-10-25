@@ -1,7 +1,7 @@
-const EMAIL = "Email";
-const PHONE = "Phone";
+const EMAIL = 'Email';
+const PHONE = 'Phone';
 
 export default {
   EMAIL,
-  PHONE,
+  PHONE
 } as const;

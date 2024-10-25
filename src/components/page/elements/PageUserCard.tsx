@@ -1,4 +1,4 @@
-import commonConstants from "@/constants/common";
+import commonConstants from '@/constants/common';
 
 type Props = {
   name: string;

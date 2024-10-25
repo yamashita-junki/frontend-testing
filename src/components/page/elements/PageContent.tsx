@@ -1,7 +1,7 @@
-import PageUserCard from "./PageUserCard";
-import { User } from "@/types/type";
-import constants from "@/constants/page";
-import { useNavigate } from "@/hooks/useNavigate";
+import PageUserCard from './PageUserCard';
+import { User } from '@/types/type';
+import constants from '@/constants/page';
+import { useNavigate } from '@/hooks/useNavigate';
 
 type Props = {
   isLoading: boolean;
@@ -21,8 +21,7 @@ export const PageContent = (props: Props) => {
             <div
               key={user.id}
               className="cursor-pointer"
-              onClick={() => navigateTo(String(user.id))}
-            >
+              onClick={() => navigateTo(String(user.id))}>
               <PageUserCard
                 name={user.name}
                 email={user.email}

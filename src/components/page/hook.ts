@@ -1,13 +1,13 @@
-import { useUsers } from "@/hooks/useUsers";
-import { User } from "@/types/type";
-import { useState } from "react";
+import { useUsers } from '@/hooks/useUsers';
+import { User } from '@/types/type';
+import { useState } from 'react';
 
 export const useHook = () => {
   const { getUsers } = useUsers();
 
   const usePage = () => {
     const [users, setUsers] = useState<User[]>([]);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchUsers = async () => {
@@ -15,7 +15,7 @@ export const useHook = () => {
         getUsers();
         setIsLoading(false);
       } catch (error) {
-        console.error("Failed to fetch users:", error);
+        console.error('Failed to fetch users:', error);
       } finally {
         setIsLoading(false);
       }
@@ -28,7 +28,7 @@ export const useHook = () => {
       setUsers,
       setSearchTerm,
       setIsLoading,
-      fetchUsers,
+      fetchUsers
     };
   };
 

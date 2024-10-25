@@ -1,6 +1,6 @@
-import { User } from "@/types/type";
-import { useState } from "react";
-import endpoint from "@/constants/endpoint";
+import { User } from '@/types/type';
+import { useState } from 'react';
+import endpoint from '@/constants/endpoint';
 
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -16,7 +16,7 @@ export const useUsers = () => {
       const data = await _fetch();
       setUsers(data);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error('Error fetching users:', error);
     }
   };
 
@@ -29,11 +29,11 @@ export const useUsers = () => {
       const targetUser = data.find((user) => user.id === Number(id));
 
       if (!targetUser) {
-        throw new Error("User not found");
+        throw new Error('User not found');
       }
       setUserDetail(targetUser);
     } catch (error) {
-      console.error("Error fetching user detail:", error);
+      console.error('Error fetching user detail:', error);
     }
   };
 
@@ -64,7 +64,7 @@ export const useUsers = () => {
 
       return await response.json();
     } catch (error) {
-      console.error("Error in fetch operation:", error);
+      console.error('Error in fetch operation:', error);
       return [];
     }
   };
@@ -74,6 +74,6 @@ export const useUsers = () => {
     userDetail,
     getUsers,
     getUserDetail,
-    searchUsers,
+    searchUsers
   };
 };
