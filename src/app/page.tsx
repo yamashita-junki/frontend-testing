@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Page } from "@/components/page";
+import { Page } from '@/components/page';
 
 const Home = () => {
   return (
