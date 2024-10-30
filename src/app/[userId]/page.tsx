@@ -1,11 +1,15 @@
-'use client';
-
 import UserId from '@/components/userId';
+import { fetchUsersData } from '@/hooks/useUsers';
 
-const UserIdPage = () => {
+const UserIdPage = async ({ params }: { params: { userId: string } }) => {
+  const { userId } = params;
+  const initialUsers = await fetchUsersData();
   return (
     <>
-      <UserId />
+      <UserId
+        initialUsers={initialUsers}
+        userId={userId}
+      />
     </>
   );
 };

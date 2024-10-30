@@ -1,23 +1,25 @@
+'use client';
+
 import UserIdHero from './elements/UserIdHero';
 import { useUsers } from '@/hooks/useUsers';
-import { useEffect } from 'react';
 import { useHook } from './hook';
 import UserIdContent from './elements/UserIdContent';
+import { User } from '@/types/type';
 
-export const UserId = () => {
-  const { userDetail, getUserDetail } = useUsers();
+type Props = {
+  userId: string;
+  initialUsers: User[] | undefined;
+};
+
+export const UserId = (props: Props) => {
+  const { getUserDetail } = useUsers(props.initialUsers);
   const { usePage } = useHook();
-  const { userId, onSubmit } = usePage();
-
-  useEffect(() => {
-    getUserDetail(userId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { onSubmit } = usePage();
 
   return (
     <div className="container mx-auto p-4">
       <UserIdHero onSubmit={onSubmit} />
-      <UserIdContent userDetail={userDetail} />
+      <UserIdContent userDetail={getUserDetail(props.userId)} />
     </div>
   );
 };
