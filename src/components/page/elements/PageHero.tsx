@@ -19,7 +19,10 @@ export const PageHero = (props: Props) => {
             setValue={props.setValue}
           />
         </p>
-        <Search className="h-6 w-6 ml-3" />
+        <Search
+          className="h-6 w-6 ml-3"
+          data-testid="search-icon"
+        />
       </div>
     </>
   );
