@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import UserId from "@/components/userId";
+import UserId from '@/components/userId';
 
 const UserIdPage = () => {
   return (

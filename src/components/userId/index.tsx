@@ -1,8 +1,8 @@
-import UserIdHero from "./elements/UserIdHero";
-import { useUsers } from "@/hooks/useUsers";
-import { useEffect } from "react";
-import { useHook } from "./hook";
-import UserIdContent from "./elements/UserIdContent";
+import UserIdHero from './elements/UserIdHero';
+import { useUsers } from '@/hooks/useUsers';
+import { useEffect } from 'react';
+import { useHook } from './hook';
+import UserIdContent from './elements/UserIdContent';
 
 export const UserId = () => {
   const { userDetail, getUserDetail } = useUsers();
