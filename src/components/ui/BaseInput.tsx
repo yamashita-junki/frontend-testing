@@ -17,7 +17,7 @@ export const BaseInput = (props: Props) => {
     <>
       <input
         type={props.type ?? 'text'}
-        placeholder={props.type ?? 'input!'}
+        placeholder={props.placeholder ?? 'input!'}
         disabled={props.disabled}
         id={props.id}
         name={props.name}
@@ -25,7 +25,7 @@ export const BaseInput = (props: Props) => {
         maxLength={props.maxLength}
         minLength={props.minLength}
         onChange={(e) => props.setValue(e.target.value)}
-        className="mr-2 border-2 rounded-md shadow-md p-2 w-full"
+        className="mr-2 border-2 rounded-md shadow-md p-2 w-full bg-black"
       />
     </>
   );
