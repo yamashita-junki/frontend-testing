@@ -17,7 +17,7 @@ export const BaseInput = (props: Props) => {
     <>
       <input
         type={props.type ?? 'text'}
-        placeholder={props.placeholder ?? 'input!'}
+        placeholder={props.type ?? 'input!'}
         disabled={props.disabled}
         id={props.id}
         name={props.name}
