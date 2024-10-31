@@ -1,23 +1,19 @@
-import { useEffect } from 'react';
+'use client';
+
 import { useHook } from './hook';
 import { useUsers } from '@/hooks/useUsers';
 import PageHero from './elements/PageHero';
 import PageContent from './elements/PageContent';
+import { User } from '@/types/type';
 
-export const Page = () => {
-  const { users, searchUsers } = useUsers();
+type Props = {
+  initialUsers: User[] | undefined;
+};
+
+export const Page = (props: Props) => {
+  const { isLoading, searchUsers } = useUsers(props.initialUsers);
   const { usePage } = useHook();
-  const { searchTerm, isLoading, fetchUsers, setSearchTerm } = usePage();
-
-  useEffect(() => {
-    fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    searchUsers(searchTerm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  const { searchTerm, setSearchTerm } = usePage();
 
   return (
     <div className="container mx-auto p-4">
@@ -27,7 +23,7 @@ export const Page = () => {
       />
       <PageContent
         isLoading={isLoading}
-        users={users}
+        users={searchUsers(searchTerm)}
       />
     </div>
   );

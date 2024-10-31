@@ -5,7 +5,7 @@ import { useNavigate } from '@/hooks/useNavigate';
 
 type Props = {
   isLoading: boolean;
-  users: User[];
+  users: User[] | undefined;
 };
 
 export const PageContent = (props: Props) => {
@@ -17,7 +17,7 @@ export const PageContent = (props: Props) => {
         <p>{constants.LOADING_TEXT}</p>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {props.users.map((user) => (
+          {props.users?.map((user) => (
             <div
               key={user.id}
               className="cursor-pointer"
@@ -32,7 +32,7 @@ export const PageContent = (props: Props) => {
         </div>
       )}
 
-      {!props.isLoading && props.users.length === 0 && (
+      {!props.isLoading && (!props.users || props.users.length === 0) && (
         <p>{constants.NO_USERS_TEXT}</p>
       )}
     </>

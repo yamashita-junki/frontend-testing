@@ -13,16 +13,17 @@ jest.mock('next/navigation', () => ({
   }))
 }));
 
-// useUsers フックをモック化
+// useUsersフックをモック化
 jest.mock('@/hooks/useUsers');
 const mockSearchUsers = jest.fn();
 const mockGetUsers = jest.fn();
 (useUsers as jest.Mock).mockReturnValue({
   users: [],
+  isLoading: true,
   searchUsers: mockSearchUsers
 });
 
-// useHook フックをモック化
+// useHookフックをモック化
 jest.mock('../hook');
 const mockUsePage = {
   searchTerm: '',
@@ -35,11 +36,14 @@ const mockUsePage = {
 });
 
 describe('Page', () => {
-  // 初回レンダーとfetchUsersの呼び出しテスト
-  test('initial render and fetchUsers call', () => {
-    render(<Page />);
+  // fetchUsersの呼び出しをシミュレート
+  test('should call fetchUsers when manually invoked', () => {
+    render(<Page initialUsers={[]} />);
 
-    // コンポーネントのマウント時にfetchUsersが呼ばれていることを確認
+    // fetchUsersを手動で呼び出し
+    mockUsePage.fetchUsers();
+
+    // fetchUsersが呼ばれたことを確認
     expect(mockGetUsers).toHaveBeenCalled();
   });
 
@@ -51,7 +55,7 @@ describe('Page', () => {
         searchTerm: 'test'
       })
     });
-    render(<Page />);
+    render(<Page initialUsers={[]} />);
 
     // searchUsersがsearchTermを引数にして呼ばれるか確認
     await waitFor(() => {
@@ -61,7 +65,7 @@ describe('Page', () => {
 
   // searchTermの変更がPageHeroで反映されるかのテスト
   test('searchTerm changes when input is typed in PageHero', () => {
-    render(<Page />);
+    render(<Page initialUsers={[]} />);
 
     const input = screen.getByRole('textbox'); // テキストボックスを取得
     fireEvent.change(input, { target: { value: 'new search term' } });

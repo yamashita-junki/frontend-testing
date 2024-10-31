@@ -1,129 +1,118 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
+import useSWR from 'swr';
 import { useUsers } from '@/hooks/useUsers';
+import { User } from '@/types/type';
 
-// モックデータを定義
-const mockUsers = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Doe', email: 'jane@example.com' }
+// モックデータ
+const mockUsers: User[] = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', phone: '123-456-7890' },
+  { id: 2, name: 'Jane Doe', email: 'jane@example.com', phone: '098-765-4321' }
 ];
 
-// fetch APIをモックするためのヘルパー設定
-global.fetch = jest.fn();
+// SWRのfetcherをモック
+jest.mock('swr', () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
 
-// beforeEachに共通のconsole.errorモックを追加する
-beforeEach(() => {
-  jest.clearAllMocks();
-  jest.spyOn(console, 'error').mockImplementation(() => {}); // console.errorを無効化
-});
-
-afterEach(() => {
-  jest.restoreAllMocks(); // テスト終了後に元に戻す
-});
-
-describe('useUsers', () => {
+describe('useUsers hook', () => {
   beforeEach(() => {
-    // 各テスト前にモックデータをクリアして干渉を防ぐ
     jest.clearAllMocks();
   });
-  // getUsersが呼ばれたときにユーザー一覧を取得して設定する
-  it('should fetch and set users when getUsers is called', async () => {
-    // fetchが正常にユーザーリストを取得する場合のモック設定
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockUsers
+
+  it('should return initial users when initialUsers is provided', () => {
+    // SWRが初期データを返すように設定
+    (useSWR as jest.Mock).mockReturnValue({
+      data: mockUsers,
+      error: null,
+      isLoading: false
+    });
+
+    // フックをレンダリング
+    const { result } = renderHook(() => useUsers(mockUsers));
+
+    // 初期データが正しく返されることを確認
+    expect(result.current.users).toEqual(mockUsers);
+    expect(result.current.error).toBeNull();
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it('should handle error if fetch fails', async () => {
+    // エラーレスポンスをモック
+    (useSWR as jest.Mock).mockReturnValue({
+      data: null,
+      error: new Error('Failed to fetch'),
+      isLoading: false
     });
 
     // フックをレンダリング
     const { result } = renderHook(() => useUsers());
 
-    // ActでgetUsers呼び出しをシミュレーション
-    await act(async () => {
-      await result.current.getUsers();
-    });
-
-    // usersの状態が正しく設定されているか確認
-    expect(result.current.users).toEqual(mockUsers);
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/users'));
+    // エラーが正しく返されることを確認
+    expect(result.current.error).toEqual(new Error('Failed to fetch'));
   });
 
-  // getUserDetailが呼ばれたときに特定のユーザーの詳細を取得して設定する
-  it('should fetch and set user detail when getUserDetail is called', async () => {
-    // fetchが正常にユーザー詳細を取得する場合のモック設定
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockUsers
+  it('should find user by ID in getUserDetail', () => {
+    // モックデータを返すように設定
+    (useSWR as jest.Mock).mockReturnValue({
+      data: mockUsers,
+      error: null,
+      isLoading: false
     });
 
-    const { result } = renderHook(() => useUsers());
+    // フックをレンダリング
+    const { result } = renderHook(() => useUsers(mockUsers));
 
-    await act(async () => {
-      await result.current.getUserDetail('1');
-    });
-
-    // userDetailが指定したIDのユーザーに一致するか確認
-    expect(result.current.userDetail).toEqual(mockUsers[0]);
+    // 特定のユーザーが正しく取得されることを確認
+    const userDetail = result.current.getUserDetail('1');
+    expect(userDetail).toEqual(mockUsers[0]);
   });
 
-  // ユーザーが見つからない場合にエラーが発生する
-  it('should throw an error if user detail is not found', async () => {
-    // fetchのモック設定
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockUsers
+  it('should return null in getUserDetail if user is not found', () => {
+    // モックデータを返すように設定
+    (useSWR as jest.Mock).mockReturnValue({
+      data: mockUsers,
+      error: null,
+      isLoading: false
     });
 
-    const { result } = renderHook(() => useUsers());
+    // フックをレンダリング
+    const { result } = renderHook(() => useUsers(mockUsers));
 
-    await act(async () => {
-      await result.current.getUserDetail('999'); // モックデータに存在しないIDを使用
-    });
-
-    // userDetailがnullのままであることを確認
-    expect(result.current.userDetail).toBeNull();
+    // 存在しないIDの場合nullが返されることを確認
+    const userDetail = result.current.getUserDetail('999');
+    expect(userDetail).toBeNull();
   });
 
-  // searchUsersが呼ばれたときに名前やメールアドレスでユーザーをフィルタリングする
-  it('should filter users by name or email when searchUsers is called', async () => {
-    // fetchのモック設定
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockUsers
+  it('should filter users by name or email in searchUsers', () => {
+    // モックデータを返すように設定
+    (useSWR as jest.Mock).mockReturnValue({
+      data: mockUsers,
+      error: null,
+      isLoading: false
     });
 
-    const { result } = renderHook(() => useUsers());
+    // フックをレンダリング
+    const { result } = renderHook(() => useUsers(mockUsers));
 
-    await act(async () => {
-      await result.current.searchUsers('John');
-    });
-
-    // 'John'を含むユーザーのみが返されるか確認
-    expect(result.current.users).toEqual([mockUsers[0]]);
+    // 名前またはメールアドレスに基づいてユーザーがフィルタされることを確認
+    const filteredUsers = result.current.searchUsers('Jane');
+    expect(filteredUsers).toEqual([mockUsers[1]]);
   });
 
-  // fetchが失敗した場合、空の配列を返し、エラーログが出力される
-  it('should return an empty array and log an error if fetch fails', async () => {
-    // fetchの失敗をモック
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error('Fetch error'));
-
-    // console.error の呼び出しを監視
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
-    const { result } = renderHook(() => useUsers());
-
-    await act(async () => {
-      await result.current.getUsers();
+  it('should return an empty array in searchUsers if no match is found', () => {
+    // モックデータを返すように設定
+    (useSWR as jest.Mock).mockReturnValue({
+      data: mockUsers,
+      error: null,
+      isLoading: false
     });
 
-    // usersが空のままであるか確認
-    expect(result.current.users).toEqual([]);
+    // フックをレンダリング
+    const { result } = renderHook(() => useUsers(mockUsers));
 
-    // エラーログが正しく出力されたか確認
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(consoleErrorSpy.mock.calls[0][0]).toContain(
-      'Error in fetch operation:'
-    );
-
-    // スパイを元に戻す
-    consoleErrorSpy.mockRestore();
+    // 一致するユーザーがいない場合、空の配列が返されることを確認
+    const filteredUsers = result.current.searchUsers('No Match');
+    expect(filteredUsers).toEqual([]);
   });
 });
