@@ -1,30 +1,26 @@
 version: 2.1
 orbs:
   node: circleci/node@5
-
 executors:
   pw-jammy-development:
+    # PlaywrightのDockerイメージを指定
     docker:
       - image: mcr.microsoft.com/playwright:v1.48.1-noble
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
-
 jobs:
   test-node:
     executor: pw-jammy-development
     steps:
       - checkout
-
       # Node.js の依存関係をインストール
       - run:
           name: Install dependencies
           command: npm install
-
       # Jest テストの実行
       - run:
           name: Run Jest tests
           command: npm run test
-
       # E2E テストの実行
       - run:
           name: Run E2E tests
@@ -33,7 +29,6 @@ jobs:
             npm run test:e2e
       - store_test_results:
           path: ./test-results/
-
   build-node:
     executor: node/default
     steps:
@@ -51,7 +46,6 @@ jobs:
       - store_artifacts:
           path: ~/artifacts
           destination: node-build
-
   deploy:
     docker:
       - image: cimg/base:stable
@@ -59,7 +53,6 @@ jobs:
       - run:
           name: deploy
           command: '#e.g. ./deploy.sh'
-
 workflows:
   build-and-test:
     jobs:
