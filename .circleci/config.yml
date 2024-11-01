@@ -19,6 +19,9 @@ jobs:
           name: Install Playwright browsers
           command: npx playwright install
       - run:
+          name: Install WebKit dependencies
+          command: sudo apt-get install -y libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libgstreamer-plugins-good1.0-0 libgstreamer-plugins-bad1.0-0 libgstreamer-plugins-ugly1.0-0 libenchant-2-2
+      - run:
           name: Build the project
           command: npm run build
       - run:
