@@ -12,7 +12,7 @@ test('e2e test', async ({ page }) => {
   await page.getByTestId('arrow-left-icon').click();
   await page.getByPlaceholder('input!').click();
   await page.getByPlaceholder('input!').fill('aaaa');
-  await page.getByText('No users found matching your').click();
+  await page.getByText('No users found matching you').click();
   await page.getByPlaceholder('input!').click();
   await page.getByPlaceholder('input!').fill('');
 });
