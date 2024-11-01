@@ -2,7 +2,7 @@
 
 ## 開発・ビルド関連
 
-    •	npm run dev
+    • npm run dev
 
 開発サーバーを起動します。通常、http://localhost:3000でアプリケーションが動作します。
 
@@ -16,7 +16,7 @@
 
 ## コード管理
 
-    •	npm run lint
+    • npm run lint
 
 ESLintを使用してコードの静的解析を実行します。
 
@@ -26,7 +26,7 @@ ESLintとPrettierを使用してコードをフォーマットし、問題を自
 
 ## テスト関連
 
-    •	npm run test
+    • npm run test
 
 Jestを使用してユニットテストを実行します。
 
@@ -44,7 +44,7 @@ npm run devで開発サーバーを起動し、Playwrightのcodegenツールで�
 
 ## その他
 
-    •	npm run prepare
+    • npm run prepare
 
 Huskyのセットアップを実行します。コミット時のコードチェックを自動化するための設定です。
 
@@ -54,5 +54,5 @@ Push時にCircleCIが自動実行し、テストの品質管理が行われま�
 
 ## CircleCI設定について
 
-    •	プロジェクトにプッシュされるたびに、CircleCIが自動的にテストを実行します。
-    •	testコマンドやtest:e2eの実行結果は、CircleCIのインターフェースから確認できます。
+    • プロジェクトにプッシュされるたびに、CircleCIが自動的にテストを実行します。
+    • testコマンドやtest:e2eの実行結果は、CircleCIのインターフェースから確認できます。
