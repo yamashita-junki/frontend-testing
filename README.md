@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# スクリプトコマンド一覧
 
-## Getting Started
+## 開発・ビルド関連
 
-First, run the development server:
+    •	npm run dev
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+開発サーバーを起動します。通常、http://localhost:3000でアプリケーションが動作します。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    • npm run build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+アプリケーションを本番ビルドします。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    • npm run start
 
-## Learn More
+本番ビルド後のアプリケーションを起動します。
 
-To learn more about Next.js, take a look at the following resources:
+## コード管理
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    •	npm run lint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+ESLintを使用してコードの静的解析を実行します。
 
-## Deploy on Vercel
+    • npm run fix
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+ESLintとPrettierを使用してコードをフォーマットし、問題を自動修正します。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## テスト関連
+
+    •	npm run test
+
+Jestを使用してユニットテストを実行します。
+
+    • npm run test:e2e
+
+PlaywrightでE2Eテストを実行します。
+
+    • npm run test:ui
+
+PlaywrightのインタラクティブUIを開いて、E2Eテストを選択・実行します。
+
+    • npm run test:codegen
+
+npm run devで開発サーバーを起動し、Playwrightのcodegenツールでテストを記録します。テストのコードを自動生成する際に便利です。
+
+## その他
+
+    •	npm run prepare
+
+Huskyのセットアップを実行します。コミット時のコードチェックを自動化するための設定です。
+
+## test関連のコマンドについて
+
+Push時にCircleCIが自動実行し、テストの品質管理が行われます。CircleCI設定ファイルに記述された条件に従い、JestおよびPlaywrightテストが実行されます。
+
+## CircleCI設定について
+
+    •	プロジェクトにプッシュされるたびに、CircleCIが自動的にテストを実行します。
+    •	testコマンドやtest:e2eの実行結果は、CircleCIのインターフェースから確認できます。
